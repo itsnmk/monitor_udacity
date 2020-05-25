@@ -18,6 +18,9 @@ const std::string kVersionFilename{"/version"};
 const std::string kOSPath{"/etc/os-release"};
 const std::string kPasswordPath{"/etc/passwd"};
 
+
+float Round(float var);
+
 // System
 float MemoryUtilization();
 long UpTime();
@@ -47,6 +50,15 @@ long ActiveJiffies(int pid);
 long IdleJiffies();
 
 // Processes
+ enum ProcCPUStats {
+    uTime_ = 13,
+    sTime_,
+    cuTime_,
+    csTime_,
+    startTime_ = 21
+  };
+
+float CpuUtilization(int pid);
 std::string Command(int pid);
 std::string Ram(int pid);
 std::string Uid(int pid);
