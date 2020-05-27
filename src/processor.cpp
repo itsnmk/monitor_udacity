@@ -13,7 +13,7 @@ float Processor::Utilization() {
   long IdleDelta = Idle - prevIdle;
   prevIdle = Idle;
   prevNonIdle = NonIdle;
-  return (float)(TotalDelta - IdleDelta) / TotalDelta;
+  return (double)(TotalDelta - IdleDelta) / TotalDelta;
 }
 
 

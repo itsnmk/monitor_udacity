@@ -284,34 +284,33 @@ string LinuxParser::Uid(int pid) {
   }
   return realUserId; }
 
-// TODO: Read and return the user associated with a process
-// REMOVE: [[maybe_unused]] once you define the function
-string LinuxParser::User(int pid) { 
-  string userId = Uid(pid);
-  string userName{};
+//  user associated with a process
+
+
+string LinuxParser::User(int pid) {
   string line;
-  string name;
-  string pwd;
+
+  // First three values in a line in /etc/passwd
+  string username;
+  string pass;
   string uid;
-  std::fstream filestream(kPasswordPath);
+
+  std::ifstream filestream(kPasswordPath);
   if (filestream.is_open()) {
     while (std::getline(filestream, line)) {
       std::replace(line.begin(), line.end(), ':', ' ');
       std::istringstream linestream(line);
-      while (linestream >> name >> pwd >> uid) {
-        if (uid == userId) {
-          // std::cout << "User name: " << name << "\n";
-          userName = name;
-          break;
+      while (linestream >> username >> pass >> uid) {
+        if (uid == LinuxParser::Uid(pid)) {
+          return username;
         }
       }
     }
-    filestream.close();
   }
-  return userName; }
+  return string();
+}
 
-// TODO: Read and return the uptime of a process
-// REMOVE: [[maybe_unused]] once you define the function
+// the uptime of a process
 long LinuxParser::UpTime(int pid) { 
   long sysTime = LinuxParser::UpTime();
   long startTime{0};
